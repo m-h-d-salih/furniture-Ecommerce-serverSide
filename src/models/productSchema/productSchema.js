@@ -1,4 +1,3 @@
-import { required } from 'joi'
 import mongoose from 'mongoose'
 
 const productSchema=new mongoose.Schema({
@@ -11,6 +10,12 @@ const productSchema=new mongoose.Schema({
         type:String
     },
     price:{
-        required:true
+        required:true,
+        type:Number
+    },
+    quantity:{
+        required:true,
+        type:Number
     }
 })
+export const Products=mongoose.model('products',productSchema)
