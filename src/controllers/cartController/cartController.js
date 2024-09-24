@@ -40,3 +40,55 @@ catch(error){
 }
 
 }
+export const getCart=async(req,res)=>{
+    try{
+        const userId=req.params.id;
+        if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid userid`})
+        const user=await User.findById(userId)
+        if(!user) return res.status(400).json({success:false,message:`user not found`})
+        const cart=await Cart.findOne({userId}).populate('products.productId')
+        if(!cart) return res.status(400).json({success:false,message:`cart not found`})
+            // console.log(cart)
+        res.status(200).json({success:true,data:cart,message:`cart fetched successfully`})
+        
+}
+catch(error){
+    return res.status(500).json({success:false,message:`internal server error ${error.message}`})
+}
+}
+export const removeFromCart=async(req,res)=>{
+    try{
+        const userId=req.params.id;
+        const {productId}=req.body;
+        if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
+        if(!mongoose.Types.ObjectId.isValid(productId)) return res.status(400).json({success:false,message:`invalid prodcut id`})
+        const user=await User.findById(userId)
+         const cart=await Cart.findOne({userId})
+        
+        if(!cart) return res.status(400).json({success:false,message:`no cart found`})
+        const productexist=cart.products.findIndex(product=>product.productId.toString()===productId)
+        if(productexist===-1) return res.status(400).json({success:false,message:`product not found in cart`})
+        cart.products.splice(productexist,1)
+        if(cart.products.length===0){
+            await User.findByIdAndUpdate(userId,{$unset:{cart:''}})
+            await Cart.deleteOne({_id:cart._id})
+        }
+        else{
+            await cart.save()
+        }
+        await user.save()
+        res.status(200).json({success:true,data:cart,message:`cartitem deleted  successfully`})
+    }
+    catch(error){
+        return res.status(500).json({sucess:false,message:`internal server error ${error.message}`})
+    }
+}
+const incrementQuantity=async(req,res)=>{
+    try{
+            const {quantity}=req.body;
+
+    }
+    catch(error){
+        return res.status(500).json({success:false,message:`internal server error ${error}`})
+    }
+}
