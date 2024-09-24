@@ -21,7 +21,11 @@ const userSchema=new mongoose.Schema({
     },
     createdAt:{
         type:Date
-    }
+    },
+    cart:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Cart'
+    },
 
 },
 {

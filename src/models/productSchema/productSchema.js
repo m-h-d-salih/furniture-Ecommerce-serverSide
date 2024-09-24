@@ -18,4 +18,4 @@ const productSchema=new mongoose.Schema({
         type:Number
     }
 })
-export const Products=mongoose.model('products',productSchema)
+export const Products=mongoose.model('Products',productSchema)
