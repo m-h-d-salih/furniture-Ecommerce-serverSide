@@ -83,9 +83,58 @@ export const removeFromCart=async(req,res)=>{
         return res.status(500).json({sucess:false,message:`internal server error ${error.message}`})
     }
 }
-const incrementQuantity=async(req,res)=>{
+export const incrementQuantity=async(req,res)=>{
     try{
-            const {quantity}=req.body;
+        const userId=req.params.id;
+        const {productId}=req.body;
+        if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
+        if(!mongoose.Types.ObjectId.isValid(productId)) return res.status(400).json({success:false,message:`invalid product id`})
+        const user=await User.findById(userId);
+        const product=await Products.findById(productId);
+        const cart = await Cart.findOne({ userId });
+        if(!user) return res.status(400).json({success:false,message:`user not found`})
+        if(!product) return res.status(400).json({success:false,message:`product not found`})
+        if(!cart) return res.status(400).json({success:false,message:`cart not found`})
+        const existproduct=cart.products.findIndex(product=>product.productId.toString()===productId)
+        if(existproduct===-1) 
+        {
+
+            return res.status(400).json({success:false,message:`product  not found in cart`})
+        }
+        else{
+            cart.products[existproduct].quantity+=1
+        }
+        await cart.save();
+        res.status(200).json({success:true,data:cart,message:`quantity incremented by 1`})
+
+    }
+    catch(error){
+        return res.status(500).json({success:false,message:`internal server error ${error}`})
+    }
+}
+export const decrementQuantity=async(req,res)=>{
+    try{
+        const userId=req.params.id;
+        const {productId}=req.body;
+        if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
+        if(!mongoose.Types.ObjectId.isValid(productId)) return res.status(400).json({success:false,message:`invalid product id`})
+        const user=await User.findById(userId);
+        const product=await Products.findById(productId);
+        const cart = await Cart.findOne({ userId });
+        if(!user) return res.status(400).json({success:false,message:`user not found`})
+        if(!product) return res.status(400).json({success:false,message:`product not found`})
+        if(!cart) return res.status(400).json({success:false,message:`cart not found`})
+        const existproduct=cart.products.findIndex(product=>product.productId.toString()===productId)
+        if(existproduct===-1) 
+        {
+
+            return res.status(400).json({success:false,message:`product  not found in cart`})
+        }
+        else{
+            cart.products[existproduct].quantity-=1
+        }
+        await cart.save();
+        res.status(200).json({success:true,data:cart,message:`quantity incremented by 1`})
 
     }
     catch(error){
