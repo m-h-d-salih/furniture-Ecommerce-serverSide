@@ -69,13 +69,13 @@ export const removeFromCart=async(req,res)=>{
         const productexist=cart.products.findIndex(product=>product.productId.toString()===productId)
         if(productexist===-1) return res.status(400).json({success:false,message:`product not found in cart`})
         cart.products.splice(productexist,1)
-        if(cart.products.length===0){
-            await User.findByIdAndUpdate(userId,{$unset:{cart:''}})
-            await Cart.deleteOne({_id:cart._id})
-        }
-        else{
+        // if(cart.products.length===0){
+        //     await User.findByIdAndUpdate(userId,{$unset:{cart:''}})
+        //     await Cart.deleteOne({_id:cart._id})
+        // }
+        // else{
             await cart.save()
-        }
+        // }
         await user.save()
         res.status(200).json({success:true,data:cart,message:`cartitem deleted  successfully`})
     }
