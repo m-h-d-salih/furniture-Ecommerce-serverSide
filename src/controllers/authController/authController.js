@@ -32,7 +32,9 @@ export const signup=async (req,res)=>{
     }
 }
 export const login=async(req,res)=>{
+    // console.log(`user login`)
     try{
+        // console.log(`user login`)
         const {email,password}=req.body;
         const user=await User.findOne({email})
         if(!user) return res.status(404).json({success:false,message:`no user found ,please create an account`})
@@ -48,6 +50,7 @@ export const login=async(req,res)=>{
 }
 export const logout=async(req,res)=>{
     try{
+        // console.log(`user logout`)
         res.cookie('token',null,{expires:new Date(Date.now()),httpOnly:true})
         res.status(200).json({success:true,message:'user logout successfully'})
     }

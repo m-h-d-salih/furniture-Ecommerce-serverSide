@@ -5,6 +5,7 @@ import Cart from "../../models/cartSchema/cartSchema.js";
 
 export const addtoCart=async(req,res)=>{
    try{
+    // console.log(`add to cart`)
     const userId=req.params.id;
     const {productId,quantity=1}=req.body;
     
@@ -16,7 +17,7 @@ export const addtoCart=async(req,res)=>{
 
     if(!user) return res.status(404).json({success:false,message:`user does not exist`})
     const product=await Products.findById(productId)
-    if(!product) return res.status(404).json({success:false,message:`product ddoes no exist`})
+    if(!product) return res.status(404).json({success:false,message:`product does no exist`})
     let cart=await Cart.findOne({userId})
 if(!cart){
     cart=new Cart({userId,products:[{productId,quantity}]});
@@ -25,7 +26,8 @@ if(!cart){
     const existingproduct=cart.products.find(product=>product.productId.toString()===productId)
     if(existingproduct){
        
-        existingproduct.quantity+=quantity
+        // existingproduct.quantity+=quantity
+        return res.status(404).json({success:false,message:`product alredy exist in cart `})
 
     }else{
         cart.products.push({ productId, quantity }); 
