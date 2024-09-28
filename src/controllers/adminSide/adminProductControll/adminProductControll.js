@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import lodash from "lodash";
 import { addProductValidation, updateProductValidation } from "../../../middleware/joiValidation/productValidation.js";
 import { Products } from "../../../models/productSchema/productSchema.js";
 
@@ -7,6 +8,7 @@ import { Products } from "../../../models/productSchema/productSchema.js";
 export const addProduct=async(req,res)=>{
     try{
         const {title}=req.body;
+        // console.log(req.body)
         const validatedProduct=await addProductValidation.validateAsync(req.body);
         // console.log(validatedProduct)
         const existingproduct=await Products.findOne({title});
@@ -26,7 +28,7 @@ export const addProduct=async(req,res)=>{
         message: `validation error ${error.message} `,
       });
     } else { 
-        
+
       res
         .status(500)
         .json({ success: false, message: `Bad request:${error.message}` });
@@ -38,12 +40,31 @@ export const addProduct=async(req,res)=>{
 //update product
 export const updateProduct=async(req,res)=>{
     try{
-        const prodcutId=req.params.id;
-        if(!mongoose.Types.ObjectId.isValid(prodcutId)) return res.status(400).json({success:false,message:`invalid product id`})
+        const productId=req.params.id;
+        const productUpdate=req.body;
+        if(!mongoose.Types.ObjectId.isValid(productId)) return res.status(400).json({success:false,message:`invalid product id`})
             await updateProductValidation.validateAsync(productUpdate);
-        const existingproduct=await Products.findById(prodcutId)
-        if(!existingproduct) return res.status(400).json({success:false,message:`the product does not exist`})
-        
+        // const existingProduct=await Products.findById(prodcutId)
+        // if(!existingProduct) return res.status(400).json({success:false,message:`the product does not exist`})
+       const {isEqual}=lodash;
+        const isDataSame = isEqual(req.body, {
+            title: productUpdate.title,
+            // description: productUpdate.description,
+            price: productUpdate.price,
+            // image: productUpdate.image,
+            category: productUpdate.category,
+            stock: productUpdate.stock,
+            // is_Listed: productUpdate.is_Listed,
+            // is_deleted: existingProduct.is_deleted,
+          });
+      if(isDataSame)return res.status(400).json({success:false,message:`no changes made`})
+        const updatedProduct = await Products.findByIdAndUpdate(
+            productId,           
+            productUpdate,       
+            { new: true }       
+          );
+        if(!updatedProduct) return res.status(404).json({success:false,message:`the product does not exist`})
+        res.status(200).json({success:true,data:updatedProduct})
     }catch (error) {
     if (error.isJoi === true) {
       return res.status(400).json({

@@ -3,7 +3,7 @@ import Joi from 'joi';
 export const addProductValidation = Joi.object({
     title: Joi.string().required().trim(),
     price: Joi.number().required(),
-    quantity: Joi.number().min(1),
+    stock: Joi.number().min(1),
     category: Joi.string().required().trim(),
     // description: Joi.string(),
     // color: Joi.string(),
@@ -13,12 +13,12 @@ export const addProductValidation = Joi.object({
   });
 export const updateProductValidation = Joi.object({
     title: Joi.string().trim(),
-    description: Joi.string(),
+    // description: Joi.string(),
     price: Joi.number(),
     category: Joi.string().trim(),
-    color: Joi.string(),
-    quantity: Joi.number().min(0),
-    isDeleted: Joi.boolean(),
-    imageSrc: Joi.string().uri(),
-    imageAlt: Joi.string(),
+    // color: Joi.string()
+    stock: Joi.number().min(0),
+    // isDeleted: Joi.boolean(),
+    // imageSrc: Joi.string().uri(),
+    // imageAlt: Joi.string(),
   }).min(1);
