@@ -1,10 +1,10 @@
-import signupvalidation from "../../middleware/signValidation.js";
+import signupvalidation from "../../middleware/joiValidation/signValidation.js";
 import User from "../../models/userSchema/userSchema.js";
 import { comparepassword, hashPassword } from "../../utils/bcrypt.js";
 import { generateToken } from "../../utils/jwt.js";
 export const signup=async (req,res)=>{
     try{
-        const {name,email,password}=req.body;
+        const {name,email,password,role}=req.body;
         // console.log(req.body)
         const existuser=await User.findOne({email})
         if(existuser)return res.status(400).json({success:false,message:`email laready exist`})
@@ -16,6 +16,7 @@ export const signup=async (req,res)=>{
         name:validateuser.name,
         email:validateuser.email,
         password:hashedPassword,
+        role:role || "user"
 
     })
     await newUser.save()
@@ -41,8 +42,10 @@ export const login=async(req,res)=>{
         const validateuser=await comparepassword(password,user.password)
         if(!validateuser) return res.status(404).json({success:false,message:`inncorrect username/password `})
         const token=generateToken(user.id)
-    return res.status(200).json({success:true,data:user,token})
-
+    if(user.role==="admin")
+        return res.status(200).json({success:true,message:`welcome admin`,data:user,token })
+     else   
+         return res.status(200).json({success:true,message:`user login successfully`,data:user,token})
     }
     catch(err){
         return res.status(404).json({success:false,message:`bad request ${err.message}`})

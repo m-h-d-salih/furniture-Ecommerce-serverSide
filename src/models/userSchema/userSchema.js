@@ -13,11 +13,16 @@ const userSchema=new mongoose.Schema({
     },
     role: {
         type: String,
+        enum: ["user", "admin"],
         default: "user",
       },
     password:{
         required:true,
         type:String
+    },
+    isBlocked:{
+        type:Boolean,
+        default:false
     },
     createdAt:{
         type:Date
@@ -30,6 +35,7 @@ const userSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Wishlist'
     },
+    
     order:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Order'

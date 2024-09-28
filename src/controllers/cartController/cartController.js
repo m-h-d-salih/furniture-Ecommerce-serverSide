@@ -43,6 +43,7 @@ catch(error){
 
 }
 export const getCart=async(req,res)=>{
+    // console.log(`cart`)
     try{
         const userId=req.params.id;
         if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid userid`})
@@ -50,7 +51,7 @@ export const getCart=async(req,res)=>{
         if(!user) return res.status(400).json({success:false,message:`user not found`})
         const cart=await Cart.findOne({userId}).populate('products.productId')
         if(!cart) return res.status(400).json({success:false,message:`cart not found`})
-            // console.log(cart)
+            
         res.status(200).json({success:true,data:cart,message:`cart fetched successfully`})
         
 }

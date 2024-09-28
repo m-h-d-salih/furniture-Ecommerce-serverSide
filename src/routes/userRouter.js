@@ -18,19 +18,19 @@ userRouter.get('/products',getProducts)
 userRouter.get('/products/:id',getProductsById)
 
 
-userRouter.post('/:id/cart',checkAuth,handlecart,cartController)
-userRouter.delete('/:id/cart',checkAuth,removeFromCart)
-userRouter.get('/:id/cart',checkAuth,getCart)
+userRouter.post('/cart/:id',checkAuth,handlecart,cartController)
+userRouter.delete('/cart/:id',checkAuth,removeFromCart)
+userRouter.get('/cart/:id',checkAuth,getCart)
 
-userRouter.post('/:id/wishlist',checkAuth,addtoWishlist)
-userRouter.get('/:id/wishlist',checkAuth,getWishlist)
-userRouter.delete('/:id/wishlist',checkAuth,removeWishlist)
+userRouter.post('/wishlist/:id',checkAuth,addtoWishlist)
+userRouter.get('/wishlist/:id',checkAuth,getWishlist)
+userRouter.delete('/wishlist/:id',checkAuth,removeWishlist)
 
-userRouter.get('/:id/order',checkAuth,getOrder)
-userRouter.post('/:id/order',checkAuth,createOrder)
+userRouter.get('/order/:id',checkAuth,getOrder)
+userRouter.post('/order/:id',checkAuth,createOrder)
 
 
 
-userRouter.post('/:id/payment',checkAuth,createPayment)
+userRouter.post('/payment/:id',checkAuth,createPayment)
 
 export default userRouter;
