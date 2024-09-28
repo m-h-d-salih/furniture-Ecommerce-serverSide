@@ -25,7 +25,8 @@ export const addProduct=async(req,res)=>{
         success: false,
         message: `validation error ${error.message} `,
       });
-    } else {
+    } else { 
+        
       res
         .status(500)
         .json({ success: false, message: `Bad request:${error.message}` });
