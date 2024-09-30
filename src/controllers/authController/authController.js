@@ -39,6 +39,7 @@ export const login=async(req,res)=>{
         const {email,password}=req.body;
         const user=await User.findOne({email})
         if(!user) return res.status(404).json({success:false,message:`no user found ,please create an account`})
+        if(user.isBlocked) return res.status(400).json({success:false,message:`sorry user is temporarly blocked`})
         const validateuser=await comparepassword(password,user.password)
         if(!validateuser) return res.status(404).json({success:false,message:`inncorrect username/password `})
         const token=generateToken(user.id)
