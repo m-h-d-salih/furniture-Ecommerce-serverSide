@@ -32,8 +32,8 @@ export const blockAndUnblockUser=async(req,res)=>{
         if(!user) return res.status(404).json({success:true,message:`no user found`})
         user.isBlocked=!user.isBlocked;
         await user.save()
-        const action=user.isBlocked?"is blocked":"is unblocked";
-        return res.status(200).json({success:true, message:` ${action}`,data:user})
+        const action=user.isBlocked?"is blocked":"is unblocked";     
+         return res.status(200).json({success:true, message:`user ${action}`,data:user})
     }catch(error){
         return res.status(500).json({success:false,message:`internal server ${error.message}`})
       

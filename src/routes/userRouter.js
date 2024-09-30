@@ -6,7 +6,7 @@ import checkAuth from "../middleware/checkAuth.js";
 import { cartController, handlecart } from "../middleware/handlecart.js";
 import { addtoWishlist, getWishlist, removeWishlist } from "../controllers/wishlistController/wishlistController.js";
 import { createOrder, getOrder } from "../controllers/orderController/orderController.js";
-import { createPayment } from "../controllers/paymentController/paymentController.js";
+import { createPayment, paymentVerification } from "../controllers/paymentController/paymentController.js";
 
 const userRouter=express.Router();
 
@@ -32,5 +32,6 @@ userRouter.post('/order/:id',checkAuth,createOrder)
 
 
 userRouter.post('/payment/:id',checkAuth,createPayment)
+userRouter.post('/paymentverification/:id',checkAuth,paymentVerification)
 
 export default userRouter;
