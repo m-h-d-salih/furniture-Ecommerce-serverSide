@@ -16,6 +16,10 @@ const productSchema=new mongoose.Schema({
     stock:{
         required:true,
         type:Number
+    },
+    isDeleted:{
+        type:Boolean,
+        default:false
     }
 })
 export const Products=mongoose.model('Products',productSchema)

@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import lodash from "lodash";
 import { addProductValidation, updateProductValidation } from "../../../middleware/joiValidation/productValidation.js";
 import { Products } from "../../../models/productSchema/productSchema.js";
+import Cart from "../../../models/cartSchema/cartSchema.js";
+import Wishlist from "../../../models/wishlistSchema/wishlistSchema.js";
 
 
 //add product
@@ -45,7 +47,14 @@ export const deleteProduct=async(req,res)=>{
         if(!deletedproduct) return res.status(404).json({success:false,message:`product not found`})
         res.status(200).json({success:true,message:`product deleted successfully`,data:deletedproduct})
         
-
+        await Cart.updateMany(
+          { 'products.productId': productId }, 
+          { $pull: { products: { productId: productId } } } 
+        );
+        await Wishlist.updateMany(
+          { 'products.productId': productId }, 
+          { $pull: { products: { productId: productId } } } 
+        );
     }catch(error){
     return res.status(500).json({success:false,message:`internal server error ${error.message}`})
 }
