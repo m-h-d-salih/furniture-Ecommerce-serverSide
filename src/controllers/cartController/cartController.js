@@ -50,7 +50,7 @@ export const getCart=async(req,res)=>{
         const user=await User.findById(userId)
         if(!user) return res.status(400).json({success:false,message:`user not found`})
         const cart=await Cart.findOne({userId}).populate('products.productId')
-        if(!cart) return res.status(400).json({success:false,message:`cart not found`})
+        if(!cart) return res.status(404).json({success:false,message:`cart not found`,data:[]})
             
         res.status(200).json({success:true,data:cart,message:`cart fetched successfully`})
         
