@@ -7,11 +7,11 @@ export const getProducts = async (req, res) => {
     let getProducts;
 
     if (category) {
-      getProducts = await Products.find({ category });
+      getProducts = await Products.find({ category,isDeleted:false });
       if (getProducts.length === 0)
         return res.status(400).json({ success: false, message: `Category not found` });
     } else {
-      getProducts = await Products.find();
+      getProducts = await Products.find({isDeleted:false});
     }
 
     return res.status(200).json({
