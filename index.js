@@ -22,6 +22,6 @@ async function main() {
   await mongoose.connect(process.env.MONGO_URI);
 
 }
-app.listen(5000,()=>console.log(`running `))
+app.listen(5000,()=>console.log(`server running on 5000`))
 
 
