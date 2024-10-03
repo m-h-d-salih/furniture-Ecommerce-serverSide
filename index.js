@@ -18,10 +18,10 @@ app.use('/api/admin',adminRouter)
 
 main().catch(err=>console.log(err))
 async function main() {
-  // await mongoose.connect('mongodb+srv://salihsha656:tRGK4jm1cYFxUYIV@cluster0.demip.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
   await mongoose.connect(process.env.MONGO_URI);
 
 }
-app.listen(5000,()=>console.log(`server running on 5000`))
+// app.listen(5000,()=>console.log(`server running on 5000`))
+app.listen(process.env.PORT,()=>console.log(`server running on `))
 
 

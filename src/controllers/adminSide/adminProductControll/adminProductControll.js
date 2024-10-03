@@ -80,8 +80,7 @@ export const updateProduct=async(req,res)=>{
             // image: productUpdate.image,
             category: productUpdate.category,
             stock: productUpdate.stock,
-            // is_Listed: productUpdate.is_Listed,
-            // is_deleted: existingProduct.is_deleted,
+            // isDeleted: existingProduct.is_deleted,
           });
       if(isDataSame)return res.status(400).json({success:false,message:`no changes made`})
         const updatedProduct = await Products.findByIdAndUpdate(
