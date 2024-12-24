@@ -1,3 +1,4 @@
+import AppError from "../../middleware/appError.js";
 import signupvalidation from "../../middleware/joiValidation/signValidation.js";
 import User from "../../models/userSchema/userSchema.js";
 import { comparepassword, hashPassword } from "../../utils/bcrypt.js";
@@ -38,7 +39,11 @@ export const login=async(req,res)=>{
         // console.log(`user login`)
         const {email,password}=req.body;
         const user=await User.findOne({email})
-        if(!user) return res.status(404).json({success:false,message:`no user found ,please create an account`})
+        if(!user)
+            {
+                throw new AppError(`no user found ,please create an account`,404)
+            }
+                
         if(user.isBlocked) return res.status(400).json({success:false,message:`sorry user is temporarly blocked`})
         const validateuser=await comparepassword(password,user.password)
         if(!validateuser) return res.status(404).json({success:false,message:`inncorrect username/password `})
