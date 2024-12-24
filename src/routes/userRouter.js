@@ -7,11 +7,12 @@ import { cartController, handlecart } from "../middleware/handlecart.js";
 import { addtoWishlist, getWishlist, removeWishlist } from "../controllers/wishlistController/wishlistController.js";
 import { createOrder, getOrder } from "../controllers/orderController/orderController.js";
 import { createPayment, paymentVerification } from "../controllers/paymentController/paymentController.js";
+import { trycatch } from "../middleware/trycatch.js";
 
 const userRouter=express.Router();
 
 userRouter.post('/register',signup);
-userRouter.post('/login',login);
+userRouter.post('/login',trycatch(login));
 userRouter.post('/logout',logout);
 
 userRouter.get('/products',getProducts)

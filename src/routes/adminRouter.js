@@ -4,10 +4,11 @@ import { blockAndUnblockUser, getAllUsers, getUserById } from "../controllers/ad
 import { addProduct, deleteProduct, updateProduct } from "../controllers/adminSide/adminProductControll/adminProductControll.js";
 import { getAllOrders } from "../controllers/adminSide/adminOrderController/adminOrderController.js";
 import { getTotalRevenue, totalProductPurchased } from "../controllers/adminSide/adminDashboard/adminDashboard.js";
+import { trycatch } from "../middleware/trycatch.js";
 
 const adminRouter=express.Router();
 
-adminRouter.get('/users',checkAuth,getAllUsers)
+adminRouter.get('/users',checkAuth,trycatch(getAllUsers))
 adminRouter.get('/users/:id',checkAuth,getUserById)
 adminRouter.post('/users/:id',checkAuth,blockAndUnblockUser)
 

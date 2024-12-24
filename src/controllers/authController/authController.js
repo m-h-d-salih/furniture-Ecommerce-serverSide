@@ -34,7 +34,7 @@ export const signup=async (req,res)=>{
 }
 export const login=async(req,res)=>{
     // console.log(`user login`)
-    try{
+    // try{
         // console.log(`user login`)
         const {email,password}=req.body;
         const user=await User.findOne({email})
@@ -47,10 +47,10 @@ export const login=async(req,res)=>{
         return res.status(200).json({success:true,message:`welcome admin`,data:user,token })
      else   
          return res.status(200).json({success:true,message:`user login successfully`,data:user,token})
-    }
-    catch(err){
-        return res.status(404).json({success:false,message:`bad request ${err.message}`})
-    }
+    // }
+    // catch(err){
+    //     return res.status(404).json({success:false,message:`bad request ${err.message}`})
+    // }
 }
 export const logout=async(req,res)=>{
     try{
