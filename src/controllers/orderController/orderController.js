@@ -4,7 +4,7 @@ import Cart from "../../models/cartSchema/cartSchema.js";
 import Order from "../../models/orderSchema/orderSchema.js";
 
 export const getOrder=async(req,res)=>{
-    try{
+  
         const userId=req.params.id;
         if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
         const user=await User.findById(userId)
@@ -13,12 +13,10 @@ export const getOrder=async(req,res)=>{
         if (order.length === 0) {
             return res.status(200).json({ success: true, message: "No orders found for this user.", data: [] });
           }        res.status(200).json({success:true,data:order})
-    }catch(error){
-        return res.status(500).json({success:false,message:`internal server error ${error.message}`})
-       }
+   
 }
 export const createOrder=async(req,res)=>{
-    try{
+    
         const userId=req.params.id;
         if(!mongoose.Types.ObjectId.isValid(userId))return res.status(400).json({success:false,message:`invalid user id`})
         const user=await User.findById(userId)
@@ -50,7 +48,5 @@ export const createOrder=async(req,res)=>{
              
               return res.status(200).json({ success: true, message: "Order placed successfully", data: newOrder });
 
-    }catch(error){
-        return res.status(500).json({success:false,message:`internal server error ${error.message}`})
-       }
+  
 }

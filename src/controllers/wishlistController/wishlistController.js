@@ -4,7 +4,7 @@ import User from "../../models/userSchema/userSchema.js";
 import Wishlist from "../../models/wishlistSchema/wishlistSchema.js";
 
 export const addtoWishlist=async(req,res)=>{
-    try{
+
         const userId=req.params.id;
         const {productId}=req.body;
         if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
@@ -30,27 +30,20 @@ export const addtoWishlist=async(req,res)=>{
     await wishlist.save()
     await user.save()
         res.status(200).json({success:true,data:wishlist,message:`product added to wishlist`})
-    }
-    catch(error){
-        return res.status(500).json({success:false,message:`internal server error ${error.message}`})
-       }
+   
 }
 export const getWishlist=async(req,res)=>{
-    try{
+    
         const userId=req.params.id;
         if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
         const wishlist=await Wishlist.findOne({userId})
         if(!wishlist)   return res.status(404).json({ success: false, message: "wishlist not found" });
     res.status(200).json({success:true,data:wishlist, message: "Wishlist fetched successfully"})
  
-        }
-
-    catch(error){
-        return res.status(500).json({success:false,message:`internal server error ${error.message}`})
-       }
+       
 }
 export const removeWishlist=async(req,res)=>{
-    try{
+ 
         const userId=req.params.id
         const{productId}=req.body
         if (!mongoose.Types.ObjectId.isValid(userId))  return res.status(400).json({ success: false, message: "Invalid user ID" });
@@ -78,8 +71,5 @@ export const removeWishlist=async(req,res)=>{
           });
 
 
-    }
-    catch(error){
-        return res.status(500).json({success:false,message:`internal server error ${error.message}`})
-       }
+ 
 }

@@ -1,7 +1,7 @@
 import Order from "../../../models/orderSchema/orderSchema.js"
 
 export const getAllOrders=async(req,res)=>{
-    try{
+    
         const orders = await Order.find()
       .populate({
         path:
@@ -15,7 +15,5 @@ export const getAllOrders=async(req,res)=>{
             data:[]
           });
          res.status(200).json({success:true,message:`order fteched successfully`,data:orders}) 
-    }catch(error){
-    return res.status(500).json({success:false,message:`internal server error ${error.message}`})
-}
+   
 }

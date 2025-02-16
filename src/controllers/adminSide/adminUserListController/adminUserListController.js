@@ -2,14 +2,11 @@ import mongoose from "mongoose"
 import User from "../../../models/userSchema/userSchema.js"
 
 export const getAllUsers=async(req,res)=>{
-    // try{
+   
         const users=await User.find()
         if(!users) return res.status(404).json({success:true,message:`no user found`,data:[]})
         else return res.status(200).json({success:true,data:users})
-    // } catch(error){
-    //     return res.status(500).json({success:false,message:`internal server ${error.message}`})
-      
-    // }
+ 
 }
 
 export const getUserById=async(req,res)=>{

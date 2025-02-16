@@ -16,7 +16,7 @@ app.use(cors());
 app.use('/api/user',userRouter)
 app.use('/api/admin',adminRouter)
 
-
+const PORT=process.env.PORT || 5000
 
 main().catch(err=>console.log(err))
 async function main() {
@@ -25,6 +25,6 @@ async function main() {
 }
 app.use(errorHandler)
 // app.listen(5000,()=>console.log(`server running on 5000`))
-app.listen(process.env.PORT,()=>console.log(`server running on `))
+app.listen(PORT,()=>console.log(`server running on http://localhost:${PORT} `))
 
 

@@ -8,12 +8,12 @@ import Wishlist from "../../../models/wishlistSchema/wishlistSchema.js";
 
 //add product
 export const addProduct=async(req,res)=>{
-    try{
-        const {title}=req.body;
+    
+        const {name}=req.body;
         // console.log(req.body)
         const validatedProduct=await addProductValidation.validateAsync(req.body);
         // console.log(validatedProduct)
-        const existingproduct=await Products.findOne({title});
+        const existingproduct=await Products.findOne({name});
         if(existingproduct)return res.status(400).json({success:false,message:'product already exist'})
         const newproduct=await Products(validatedProduct)
      await newproduct.save()
@@ -23,24 +23,13 @@ export const addProduct=async(req,res)=>{
         data: newproduct,
       });
 
-    }catch (error) {
-    if (error.isJoi === true) {
-      return res.status(400).json({
-        success: false,
-        message: `validation error ${error.message} `,
-      });
-    } else { 
-
-      res
-        .status(500)
-        .json({ success: false, message: `Bad request:${error.message}` });
-    }
-  }
+    
+  
 }
 //delete product
 
 export const deleteProduct=async(req,res)=>{
-    try{
+   
         const productId=req.params.id;
         if(!mongoose.Types.ObjectId.isValid(productId)) return res.status(400).json({success:false,message:`invalid product id`})
         const product=await Products.findById(productId)
@@ -57,15 +46,13 @@ export const deleteProduct=async(req,res)=>{
           { 'products.productId': productId }, 
           { $pull: { products: { productId: productId } } } 
         );
-    }catch(error){
-    return res.status(500).json({success:false,message:`internal server error ${error.message}`})
-}
+  
 }
 
 
 //update product
 export const updateProduct=async(req,res)=>{
-    try{
+   
         const productId=req.params.id;
         const productUpdate=req.body;
         if(!mongoose.Types.ObjectId.isValid(productId)) return res.status(400).json({success:false,message:`invalid product id`})
@@ -90,16 +77,5 @@ export const updateProduct=async(req,res)=>{
           );
         if(!updatedProduct) return res.status(404).json({success:false,message:`the product does not exist`})
         res.status(200).json({success:true,data:updatedProduct})
-    }catch (error) {
-    if (error.isJoi === true) {
-      return res.status(400).json({
-        success: false,
-        message: `validation error ${error.message} `,
-      });
-    } else {
-      res
-        .status(500)
-        .json({ success: false, message: `Bad request:${error.message}` });
-    }
-  }
+    
 }

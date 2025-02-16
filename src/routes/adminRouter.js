@@ -9,17 +9,17 @@ import { trycatch } from "../middleware/trycatch.js";
 const adminRouter=express.Router();
 
 adminRouter.get('/users',checkAuth,trycatch(getAllUsers))
-adminRouter.get('/users/:id',checkAuth,getUserById)
-adminRouter.post('/users/:id',checkAuth,blockAndUnblockUser)
+adminRouter.get('/users/:id',checkAuth,trycatch(getUserById))
+adminRouter.post('/users/:id',checkAuth,trycatch(blockAndUnblockUser))
 
 
-adminRouter.post('/products',checkAuth,addProduct)
-adminRouter.post('/products/:id',checkAuth,updateProduct)
-adminRouter.delete('/products/:id',checkAuth,deleteProduct)
+adminRouter.post('/products',checkAuth,trycatch(addProduct))
+adminRouter.post('/products/:id',checkAuth,trycatch(updateProduct))
+adminRouter.delete('/products/:id',checkAuth,trycatch(deleteProduct))
 
-adminRouter.get('/orders',checkAuth,getAllOrders)
-adminRouter.get('/revenue',checkAuth,getTotalRevenue)
-adminRouter.get('/products-analytics',checkAuth,totalProductPurchased)
+adminRouter.get('/orders',checkAuth,trycatch(getAllOrders))
+adminRouter.get('/revenue',checkAuth,trycatch(getTotalRevenue))
+adminRouter.get('/products-analytics',checkAuth,trycatch(totalProductPurchased))
 
 
 export default adminRouter;

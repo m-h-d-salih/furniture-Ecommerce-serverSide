@@ -5,10 +5,10 @@ export const addProductValidation = Joi.object({
     price: Joi.number().required(),
     stock: Joi.number().min(1),
     category: Joi.string().required().trim(),
-    // description: Joi.string(),
+    description: Joi.string(),
     // color: Joi.string(),
     // isDeleted: Joi.boolean(),
-    // imageSrc: Joi.string().uri(),
+    url: Joi.string(),
     // imageAlt: Joi.string(),
   });
 export const updateProductValidation = Joi.object({

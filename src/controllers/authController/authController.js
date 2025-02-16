@@ -4,7 +4,7 @@ import User from "../../models/userSchema/userSchema.js";
 import { comparepassword, hashPassword } from "../../utils/bcrypt.js";
 import { generateToken } from "../../utils/jwt.js";
 export const signup=async (req,res)=>{
-    try{
+    
         const {name,email,password,role}=req.body;
         // console.log(req.body)
         const existuser=await User.findOne({email})
@@ -28,15 +28,9 @@ export const signup=async (req,res)=>{
       });
     }
     
-    catch(error){
-        return res.status(404).json({success:false,message:`bad request ${error.message}`})
-      
-    }
-}
+
 export const login=async(req,res)=>{
-    // console.log(`user login`)
-    // try{
-        // console.log(`user login`)
+    
         const {email,password}=req.body;
         const user=await User.findOne({email})
         if(!user)
@@ -52,10 +46,7 @@ export const login=async(req,res)=>{
         return res.status(200).json({success:true,message:`welcome admin`,data:user,token })
      else   
          return res.status(200).json({success:true,message:`user login successfully`,data:user,token})
-    // }
-    // catch(err){
-    //     return res.status(404).json({success:false,message:`bad request ${err.message}`})
-    // }
+    
 }
 export const logout=async(req,res)=>{
     try{

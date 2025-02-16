@@ -11,24 +11,24 @@ import { trycatch } from "../middleware/trycatch.js";
 
 const userRouter=express.Router();
 
-userRouter.post('/register',signup);
+userRouter.post('/register',trycatch(signup));
 userRouter.post('/login',trycatch(login));
-userRouter.post('/logout',logout);
+userRouter.post('/logout',trycatch(logout));
 
-userRouter.get('/products',getProducts)
-userRouter.get('/products/:id',getProductsById)
+userRouter.get('/products',trycatch(getProducts))
+userRouter.get('/products/:id',trycatch(getProductsById))
 
 
-userRouter.post('/cart/:id',checkAuth,handlecart,cartController)
-userRouter.delete('/cart/:id',checkAuth,removeFromCart)
-userRouter.get('/cart/:id',checkAuth,getCart)
+userRouter.post('/cart/:id',checkAuth,handlecart,trycatch(cartController))
+userRouter.delete('/cart/:id',checkAuth,trycatch(removeFromCart))
+userRouter.get('/cart/:id',checkAuth,trycatch(getCart))
 
-userRouter.post('/wishlist/:id',checkAuth,addtoWishlist)
-userRouter.get('/wishlist/:id',checkAuth,getWishlist)
-userRouter.delete('/wishlist/:id',checkAuth,removeWishlist)
+userRouter.post('/wishlist/:id',checkAuth,trycatch(addtoWishlist))
+userRouter.get('/wishlist/:id',checkAuth,trycatch(getWishlist))
+userRouter.delete('/wishlist/:id',checkAuth,trycatch(removeWishlist))
 
-userRouter.get('/order/:id',checkAuth,getOrder)
-userRouter.post('/order/:id',checkAuth,createOrder)
+userRouter.get('/order/:id',checkAuth,trycatch(getOrder))
+userRouter.post('/order/:id',checkAuth,trycatch(createOrder))
 
 
 

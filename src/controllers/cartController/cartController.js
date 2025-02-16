@@ -4,7 +4,7 @@ import User from "../../models/userSchema/userSchema.js";
 import Cart from "../../models/cartSchema/cartSchema.js";
 
 export const addtoCart=async(req,res)=>{
-   try{
+  
     // console.log(`add to cart`)
     const userId=req.params.id;
     const {productId,quantity=1}=req.body;
@@ -36,15 +36,12 @@ if(!cart){
     await user.save();
     await cart.save();
    return res.status(200).json({success:true,data:cart,message:`item added to cart`})
-   } 
-catch(error){
-    return res.status(500).json({success:false,message:`failed to add product to cart ${error}`})
-}
+
 
 }
 export const getCart=async(req,res)=>{
     // console.log(`cart`)
-    try{
+   
         const userId=req.params.id;
         if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid userid`})
         const user=await User.findById(userId)
@@ -55,12 +52,10 @@ export const getCart=async(req,res)=>{
         res.status(200).json({success:true,data:cart,message:`cart fetched successfully`})
         
 }
-catch(error){
-    return res.status(500).json({success:false,message:`internal server error ${error.message}`})
-}
-}
+
+
 export const removeFromCart=async(req,res)=>{
-    try{
+ 
         const userId=req.params.id;
         const {productId}=req.body;
         if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
@@ -82,12 +77,10 @@ export const removeFromCart=async(req,res)=>{
         await user.save()
         res.status(200).json({success:true,data:cart,message:`cartitem deleted  successfully`})
     }
-    catch(error){
-        return res.status(500).json({sucess:false,message:`internal server error ${error.message}`})
-    }
-}
+
+
 export const incrementQuantity=async(req,res)=>{
-    try{
+  
         const userId=req.params.id;
         const {productId}=req.body;
         if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
@@ -111,12 +104,10 @@ export const incrementQuantity=async(req,res)=>{
         res.status(200).json({success:true,data:cart,message:`quantity incremented by 1`})
 
     }
-    catch(error){
-        return res.status(500).json({success:false,message:`internal server error ${error}`})
-    }
-}
+  
+
 export const decrementQuantity=async(req,res)=>{
-    try{
+    
         const userId=req.params.id;
         const {productId}=req.body;
         if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
@@ -139,8 +130,5 @@ export const decrementQuantity=async(req,res)=>{
         await cart.save();
         res.status(200).json({success:true,data:cart,message:`quantity incremented by 1`})
 
-    }
-    catch(error){
-        return res.status(500).json({success:false,message:`internal server error ${error}`})
-    }
+  
 }
