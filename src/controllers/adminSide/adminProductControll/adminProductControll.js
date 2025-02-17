@@ -8,14 +8,25 @@ import Wishlist from "../../../models/wishlistSchema/wishlistSchema.js";
 
 //add product
 export const addProduct=async(req,res)=>{
-    
-        const {name}=req.body;
-        // console.log(req.body)
-        const validatedProduct=await addProductValidation.validateAsync(req.body);
+  //  console.log(req.body)
+  const { name ,...rest} = req.body;
+  let url
+  if (req.file && req.file.path) {         //It checks if the image file uploaded
+      url = req.file.path;   // to save the product data/image url.
+      
+  } else {
+      return res.status(400).json({
+          success: false,
+          message: 'Image upload failed. Please include a valid image file.',
+      });
+  }
+        
+       
+        // const validatedProduct=await addProductValidation.validateAsync(req.body);
         // console.log(validatedProduct)
         const existingproduct=await Products.findOne({name});
         if(existingproduct)return res.status(400).json({success:false,message:'product already exist'})
-        const newproduct=await Products(validatedProduct)
+        const newproduct=await Products({name,url,...rest})
      await newproduct.save()
      res.status(200).json({
         success: true,

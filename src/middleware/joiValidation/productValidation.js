@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const addProductValidation = Joi.object({
-    title: Joi.string().required().trim(),
+    name: Joi.string().required().trim(),
     price: Joi.number().required(),
     stock: Joi.number().min(1),
     category: Joi.string().required().trim(),
@@ -12,8 +12,8 @@ export const addProductValidation = Joi.object({
     // imageAlt: Joi.string(),
   });
 export const updateProductValidation = Joi.object({
-    title: Joi.string().trim(),
-    // description: Joi.string(),
+  name: Joi.string().trim(),
+    description: Joi.string(),
     price: Joi.number(),
     category: Joi.string().trim(),
     // color: Joi.string()

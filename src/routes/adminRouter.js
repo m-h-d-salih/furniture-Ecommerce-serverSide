@@ -5,6 +5,7 @@ import { addProduct, deleteProduct, updateProduct } from "../controllers/adminSi
 import { getAllOrders } from "../controllers/adminSide/adminOrderController/adminOrderController.js";
 import { getTotalRevenue, totalProductPurchased } from "../controllers/adminSide/adminDashboard/adminDashboard.js";
 import { trycatch } from "../middleware/trycatch.js";
+import { upload } from "../config/cloudinaryConfig.js";
 
 const adminRouter=express.Router();
 
@@ -13,7 +14,7 @@ adminRouter.get('/users/:id',checkAuth,trycatch(getUserById))
 adminRouter.post('/users/:id',checkAuth,trycatch(blockAndUnblockUser))
 
 
-adminRouter.post('/products',checkAuth,trycatch(addProduct))
+adminRouter.post('/products',checkAuth,upload.single('image'),trycatch(addProduct))
 adminRouter.post('/products/:id',checkAuth,trycatch(updateProduct))
 adminRouter.delete('/products/:id',checkAuth,trycatch(deleteProduct))
 
