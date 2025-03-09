@@ -5,7 +5,8 @@ const checkAuth=async(req,res,next)=>{
    try{
     const token=req.headers.authorization;
     if(!token) return res.status(404).json({success:false,message:`access denied`})
-    const validtoken=jwt.verify(token,process.env.TOKEN_SECRET);
+    const validtoken=jwt.verify(token,process.env.JWT_SECRET);
+   
     if(!validtoken) return res.status(404).json({success:false,message:`ivalid token`})
     next();
    } 
