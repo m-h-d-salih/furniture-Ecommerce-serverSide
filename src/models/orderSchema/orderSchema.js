@@ -30,7 +30,10 @@ const orderSchema=mongoose.Schema({
   totalItems: { 
     type: Number,
   },
-  customerName: {
+  name: {
+    type: String,
+  },
+  email: {
     type: String,
   },
   address:{type:String},

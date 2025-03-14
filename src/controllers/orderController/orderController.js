@@ -9,10 +9,11 @@ export const getOrder=async(req,res)=>{
         if(!mongoose.Types.ObjectId.isValid(userId)) return res.status(400).json({success:false,message:`invalid user id`})
         const user=await User.findById(userId)
         if(!user)return res.status(400).json({success:false,message:`user not found`})
-        const order=await Order.findOne({userId}).populate('products.productId')
+        const order=await Order.find({userId}).populate('products.productId');
         if (order.length === 0) {
             return res.status(200).json({ success: true, message: "No orders found for this user.", data: [] });
-          }        res.status(200).json({success:true,data:order})
+          }       
+           res.status(200).json({success:true,message:`orders fetched successfully`,data:order})
    
 }
 export const createOrder=async(req,res)=>{

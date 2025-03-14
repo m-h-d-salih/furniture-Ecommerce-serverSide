@@ -12,7 +12,6 @@ export const createPayment = async (req, res) => {
     try {
         const userId = req.params.id;
         const { currency } = req.body;
-
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             return res.status(400).json({ success: false, message: "Invalid user id" });
         }
@@ -72,7 +71,7 @@ export const createPayment = async (req, res) => {
 
 export  const paymentVerification = async (req, res) => {
     try {
-      const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =req.body;
+      const { razorpay_payment_id, razorpay_order_id, razorpay_signature,email,name,phone } =req.body;
       const userId = req.params.id;
       if(!mongoose.Types.ObjectId.isValid(userId)){
         return res.status(400).json({success:false,message:"Invalid user id"})
@@ -102,13 +101,14 @@ export  const paymentVerification = async (req, res) => {
           })),
           Total_Amount: amount,
           Payment_Id: razorpay_payment_id,
-          Customer_Name: user.UserName,
+          Customer_Name: name,
+          Customer_Email: email,
           Total_Items: cart.products.length,
           // address: user.address,
           // city: user.city,
           // state: user.state,
           // pincode: user.pincode,
-          contact: user.contact,
+          contact: phone,
         });
 
         await order.save();
