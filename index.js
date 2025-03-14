@@ -11,13 +11,15 @@ const app=express();
 dotenv.config();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
+
 const corsOptions = {
-  origin: process.env.FRONT_END_URL, // Ensure this matches exactly with your frontend URL
+  origin: process.env.FRONT_END_URL,  // Ensure this matches exactly with your frontend URL
   credentials: true, // Allow sending cookies and auth headers
   allowedHeaders: ["Content-Type", "Authorization"], // Explicitly allow headers
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
 };
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use('/api/user',userRouter)
 app.use('/api/admin',adminRouter)
 
